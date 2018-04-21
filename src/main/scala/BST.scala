@@ -1,3 +1,5 @@
+
+
 abstract class BST
 
 case class Node(left: BST, value: Int, right: BST) extends BST
@@ -5,6 +7,9 @@ case class Node(left: BST, value: Int, right: BST) extends BST
 case class Empty() extends BST
 
 object BST {
+
+  var deepest: Int = _
+  var maxLevel: Int = _
 
   def insert(v: Int, tree: BST): BST = {
     tree match {
@@ -69,10 +74,46 @@ object BST {
         else false
       case Empty() => true
     }
-
     checkBSTHelper(tree, Integer.MAX_VALUE, Integer.MIN_VALUE)
   }
+
+  def getMax(tree: BST): Int = tree match {
+    case Node(l, v, r) =>
+      if(r == Empty()) v
+      else getMax(r)
+    case Empty() => -1
+  }
+
+  def getMin(tree: BST): Int = tree match {
+    case Node(l, v, r) =>
+      if(l == Empty()) v
+      else getMin(l)
+    case Empty() => -1
+  }
+
+  def getDeepestNodeValue(tree: BST): Int = {
+    deepest = -1
+    maxLevel = -1
+
+    def getDeepestHelper(tree: BST, level: Int): Int = tree match {
+      case Node(l , v, r) =>
+        getDeepestHelper(l, level+1)
+        if (level > maxLevel) {
+          maxLevel = level
+          deepest = v
+        }
+        getDeepestHelper(r, level+1)
+      case Empty() => deepest
+    }
+
+    getDeepestHelper(tree, 0)
+  }
+
+
+
 }
+
+
 
 
 object Tester extends App {
@@ -93,6 +134,9 @@ object Tester extends App {
   println()
   println(BST.find(1, t))
   println(BST.checkBST(t))
+  println(BST.getMax(t))
+  println(BST.getMin(t))
+  println(BST.getDeepestNodeValue(t))
 
 }
 
