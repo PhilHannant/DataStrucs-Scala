@@ -105,10 +105,18 @@ object BST {
         getDeepestHelper(r, level+1)
       case Empty() => deepest
     }
-
     getDeepestHelper(tree, 0)
   }
 
+  def getHeight(tree: BST): Int = tree match {
+    case Node(l, v, r) =>
+      var lMax = 0
+      var rMax = 0
+      lMax = getHeight(l)
+      rMax = getHeight(r)
+      Math.max(lMax, rMax)+1
+    case Empty() => -1
+  }
 
 
 }
@@ -137,6 +145,7 @@ object Tester extends App {
   println(BST.getMax(t))
   println(BST.getMin(t))
   println(BST.getDeepestNodeValue(t))
+  println(BST.getHeight(t))
 
 }
 
