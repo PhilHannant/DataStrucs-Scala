@@ -30,13 +30,50 @@ object BST {
     tree match {
       case Node(l, v, r) =>
         printInorder(l)
-        println(v)
+        print("%d ".format(v))
         printInorder(r)
-      case Node(Empty(), v, Empty()) => print(v)
-      case Empty() => print(" ")
+      case Node(Empty(), v, Empty()) => print("%d ".format(v))
+      case Empty() => print("")
     }
   }
+
+  def printPreOrder(tree: BST): Unit = {
+    tree match {
+      case Node(l, v, r) =>
+        print("%d ".format(v))
+        printPreOrder(l)
+        printPreOrder(r)
+      case Node(Empty(), v, Empty()) => print("%d ".format(v))
+      case Empty() => print("")
+    }
+
+  }
+
+  def printPostOrder(tree: BST): Unit = {
+    tree match {
+      case Node(l, v, r) =>
+        printPostOrder(l)
+        printPostOrder(r)
+        print("%d ".format(v))
+      case Node(Empty(), v, Empty()) => print("%d ".format(v))
+      case Empty() => print("")
+    }
+  }
+
+  def checkBST(tree: BST): Boolean = {
+
+
+    def checkBSTHelper(tree: BST, max: Int, min: Int): Boolean = tree match {
+      case Node(l, v, r) =>
+        if (v < max && v > min && checkBSTHelper(l, v, min) && checkBSTHelper(r, max, v)) true
+        else false
+      case Empty() => true
+    }
+
+    checkBSTHelper(tree, Integer.MAX_VALUE, Integer.MIN_VALUE)
+  }
 }
+
 
 object Tester extends App {
   var t = BST.insert(3, Empty())
@@ -49,7 +86,13 @@ object Tester extends App {
   t = BST.insert(1, t)
 
   BST.printInorder(t)
+  println()
+  BST.printPreOrder(t)
+  println()
+  BST.printPostOrder(t)
+  println()
   println(BST.find(1, t))
+  println(BST.checkBST(t))
 
 }
 
