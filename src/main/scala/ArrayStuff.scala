@@ -6,6 +6,7 @@ import scala.collection.mutable
 object ArrayStuff extends App {
 
   println(largestZeroSum(Array(15, -2, 2, -8, 1, 7, 10, 23)))
+  println(maxSumSubArray(Array(-2, -3, 4, -1, -2, 1, 5, -3)))
 
 
 
@@ -14,7 +15,6 @@ object ArrayStuff extends App {
     var max = 0
     var hm: mutable.HashMap[Int, Int] = new mutable.HashMap()
     for(i <- 0 to arr.length-1) {
-      println(sum)
       sum += arr(i)
       if (!hm.contains(sum)) {
         hm.put(sum, i)
@@ -27,5 +27,18 @@ object ArrayStuff extends App {
       }
     }
     max
+  }
+
+  def maxSumSubArray(arr: Array[Int]): Int = {
+    var currenMax: Int = arr(0)
+    var maxHere: Int = arr(0)
+
+    for(i <- 1 to arr.length-1){
+      maxHere+= arr(i)
+      maxHere = Math.max(arr(i), maxHere)
+      currenMax = Math.max(currenMax, maxHere)
+    }
+
+    currenMax
   }
 }
